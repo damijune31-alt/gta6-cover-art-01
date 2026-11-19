@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEON HEAT — Midnight Run Cover Maker</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main class="app" id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">NEON HEAT</span>
+      <span class="brand-sub">Midnight Run — 9-panel cover maker</span>
+    </div>
+    <p class="tagline">Your photos. Nine panels. One sunset-soaked cover.</p>
+  </header>
+
+  <section class="stage">
+    <canvas id="cover" width="1920" height="1080" aria-label="Live cover preview"></canvas>
+    <div class="panel-pick" id="panelPick" aria-label="Choose a panel to edit"></div>
+  </section>
+
+  <aside class="panel" id="controls">
+    <section class="group">
+      <h2>1 · Photos</h2>
+      <label class="file-label">Add your photos
+        <input id="upload" type="file" accept="image/*" multiple>
+      </label>
+      <p class="hint">Pick one photo to fill every panel, or several — each goes to the next empty panel. Photos stay on your machine.</p>
+      <div class="row">
+        <button id="fillSamples" type="button">Fill 9 panels with samples</button>
+        <button id="fillOne" type="button">Fill all with one photo</button>
+      </div>
+      <div class="samples" id="samples" aria-label="Sample photos"></div>
+    </section>
+
+    <section class="group">
+      <h2>2 · Selected panel <span id="panelName">1</span></h2>
+      <label>Zoom <input id="zoom" type="range" min="100" max="260" value="100"></label>
+      <label>Move sideways <input id="panX" type="range" min="-50" max="50" value="0"></label>
+      <label>Move up / down <input id="panY" type="range" min="-50" max="50" value="0"></label>
+      <div class="row">
+        <button id="resetPanel" type="button">Reset panel</button>
+        <button id="clearPanel" type="button">Empty panel</button>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>3 · Words</h2>
+      <label>Big title <input id="title" type="text" maxlength="24" value="MIDNIGHT RUN"></label>
+      <label>Neon script <input id="script" type="text" maxlength="24" value="Neon Heat"></label>
+      <label>Badge <input id="badge" type="text" maxlength="8" value="NEW"></label>
+      <label>Sunset grade <input id="grade" type="range" min="0" max="100" value="70"></label>
+    </section>
+
+    <section class="group">
+      <h2>4 · Export PNG</h2>
+      <div class="sizes" role="group" aria-label="Export size">
+        <button class="size" type="button" data-w="1920" data-h="1080">1920 × 1080</button>
+        <button class="size" type="button" data-w="1080" data-h="1080">1080 × 1080</button>
+        <button class="size" type="button" data-w="1080" data-h="1350">1080 × 1350</button>
+      </div>
+      <button id="export" type="button" class="export">Export PNG</button>
+      <p id="status" role="status">Load a photo or tap “Fill 9 panels with samples”.</p>
+    </section>
+  </aside>
+</main>
+<script type="module" src="./src/app.js"></script>
+</body>
+</html>
