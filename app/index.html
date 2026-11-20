@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!-- NEON HEAT — Midnight Run Cover Maker.
-     Offline cover-art editor: nine photos in a 3x3 poster grid, a title band
-     above the grid, a neon script subtitle, a NEW badge, and PNG export in
-     three post sizes. Photos never leave this device. -->
+     Offline cover-art editor. Nine photos fill a 3x3 poster grid, a title
+     band with a giant gradient title and a neon script subtitle sits above
+     the grid, and the cover exports as a PNG in three post sizes. Photos
+     are read on this device and never leave it. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -21,7 +22,7 @@
 </header>
 
 <main class="layout">
-  <!-- Live preview: the canvas below is exactly the PNG you export. -->
+  <!-- Live preview: this canvas is exactly the PNG you export. -->
   <section class="stage" aria-label="Cover preview">
     <div class="cover-wrap" id="coverWrap">
       <canvas id="cover" width="1080" height="1080"></canvas>
@@ -35,7 +36,6 @@
   </section>
 
   <aside class="controls">
-    <!-- Title and grade -->
     <section class="card">
       <h2>Title</h2>
       <label>Cover title
@@ -54,7 +54,7 @@
       </label>
     </section>
 
-    <!-- One panel at a time: pick it, give it a photo, crop it. -->
+    <!-- One panel at a time: select it, give it a photo, crop it. -->
     <section class="card">
       <h2>Panels — pick one, then style it</h2>
       <div class="panel-grid" id="panelGrid"></div>
@@ -79,7 +79,6 @@
       </div>
     </section>
 
-    <!-- Export -->
     <section class="card">
       <h2>Export PNG</h2>
       <p class="hint">One tap, one ready-to-post PNG. No watermark, no upload.</p>

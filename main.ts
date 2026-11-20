@@ -1,52 +1,68 @@
-// NEON HEAT — Midnight Run Cover Maker: entrypoint (round-3 rebuild).
+// NEON HEAT — Midnight Run Cover Maker: submission entrypoint (round 3, fix 3).
+//
 // Hands the app in: copies app/ and screenshots/ from beside this file into
-// the output directory and writes /output/dossier.json with the kit's
-// buildDossier library. The repo root is found from this file's own URL, so
-// the grader can run `node /bot/main.ts` from any working directory — the
-// round-2 failure was process.cwd() pointing at the grader's folder instead
-// of the repo. Outside the grader, MAKEFUN_OUTPUT_DIR stands in for /output:
+// the output directory and writes dossier.json there with the kit library
+// (vendor/makefun-app.ts). Run it as:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-// Serve the app locally with `node serve.ts`, then open http://localhost:8080.
+// Try the app first with `node serve.ts` (http://localhost:8080).
+//
+// The round-3 fix lives in repoRoot(): the repository is located from this
+// module's own URL, never from process.cwd(). The grader runs
+// `node /bot/main.ts` from its own folder, so cwd points at the grader's
+// directory, not the repo — the round-2 run failed with ENOENT for exactly
+// that reason. Outside the grader, MAKEFUN_OUTPUT_DIR stands in for /output.
 
 import { cpSync, existsSync, mkdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-app.ts';
 
-// Directory holding this entrypoint = the repository root, whatever the
-// caller's working directory is.
-const repoDir = dirname(fileURLToPath(import.meta.url));
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
-
-function copyIntoOut(name: string): void {
-  const src = join(repoDir, name);
-  const dst = join(outDir, name);
-  cpSync(src, dst, { recursive: true });
-  console.log('  copied ' + name + '/');
+// The directory this file sits in is the repository root, whatever folder
+// the caller ran node from.
+function repoRoot(): string {
+  return dirname(fileURLToPath(import.meta.url));
 }
 
-rmSync(outDir, { recursive: true, force: true });
-mkdirSync(outDir, { recursive: true });
-copyIntoOut('app');
-copyIntoOut('screenshots');
+const ROOT = repoRoot();
+const OUT = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+const HAND_IN = ['app', 'screenshots'] as const;
 
-const dossier = buildDossier(outDir, {
-  text_max_bytes: 163840,
-  screenshots: { max: 4, max_bytes: 262144 },
-  app_max_files: 993,
-  app_max_bytes: 50331648,
-});
-writeFileSync(join(outDir, 'dossier.json'), dossier);
-
-// The grader runs this program twice and compares the bytes, so a silent
-// short write would fail the entry later. Refuse to report success unless
-// the dossier is really on disk and non-empty.
-const dossierPath = join(outDir, 'dossier.json');
-if (!existsSync(dossierPath) || statSync(dossierPath).size === 0) {
-  throw new Error('dossier.json was not written to ' + outDir);
+function copyHandIn(name: string): void {
+  const from = join(ROOT, name);
+  const to = join(OUT, name);
+  cpSync(from, to, { recursive: true });
+  console.log(`copied ${name}/ -> ${to}`);
 }
 
-console.log('NEON HEAT handed in:');
-console.log('  repo: ' + repoDir);
-console.log('  output: ' + outDir);
-console.log('  dossier.json: ' + statSync(dossierPath).size + ' bytes');
+function buildAndWriteDossier(): number {
+  const dossier = buildDossier(OUT, {
+    text_max_bytes: 163840,
+    screenshots: { max: 4, max_bytes: 262144 },
+    app_max_files: 993,
+    app_max_bytes: 50331648,
+  });
+  const target = join(OUT, 'dossier.json');
+  writeFileSync(target, dossier);
+  return statSync(target).size;
+}
+
+// Start from a clean output directory so a stale file can never survive
+// from an earlier run: the grader runs this program twice and compares
+// the bytes, so both runs must produce the same output.
+rmSync(OUT, { recursive: true, force: true });
+mkdirSync(OUT, { recursive: true });
+for (const name of HAND_IN) copyHandIn(name);
+
+const dossierBytes = buildAndWriteDossier();
+
+// Refuse to claim success on a half-written hand-in: both the dossier and
+// the app's entry page must be on disk, and the dossier must be non-empty.
+const entryPage = join(OUT, 'app', 'index.html');
+if (dossierBytes === 0 || !existsSync(entryPage)) {
+  throw new Error(`hand-in incomplete in ${OUT}: dossier.json or app/index.html missing`);
+}
+
+console.log(`NEON HEAT handed in from ${ROOT}`);
+console.log(`  output: ${OUT}`);
+console.log(`  dossier.json: ${dossierBytes} bytes`);
+console.log('  repo root: import.meta.url (works from any cwd)');

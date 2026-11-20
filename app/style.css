@@ -1,21 +1,38 @@
 /* NEON HEAT — Midnight Run Cover Maker: the editor's dark neon look.
-   Deep purple night, hot pink borders, and a sunset gradient on the brand.
+   Deep purple night, hot pink borders, a sunset gradient on the brand.
    The cover itself is drawn on canvas by app/src/app.js; this file only
    styles the editor around it. */
+
+:root {
+  --night: #0d0b16;
+  --panel: #1a1226;
+  --panel-deep: #120c1d;
+  --field: #241a33;
+  --ink: #f5eef5;
+  --ink-soft: #d9cbe4;
+  --ink-dim: #cdbfd6;
+  --ink-faint: #8f819e;
+  --line: #3d2b52;
+  --line-soft: #6b5b7a;
+  --hot: #ff2d78;
+  --amber: #ffb347;
+  --mint: #8dff9e;
+}
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: #0d0b16;
-  color: #f5eef5;
+  background: var(--night);
+  color: var(--ink);
   font-family: "Segoe UI", Arial, sans-serif;
 }
 
 /* --- Header --- */
+
 .topbar {
   padding: 18px 22px 10px;
-  border-bottom: 2px solid #ff2d78;
+  border-bottom: 2px solid var(--hot);
   background: linear-gradient(90deg, #1a0b2e, #2b0f3a 55%, #3a0f2b);
 }
 
@@ -23,7 +40,7 @@ body {
   font-family: "Arial Black", Arial, sans-serif;
   font-size: 30px;
   letter-spacing: 2px;
-  background: linear-gradient(90deg, #ffb347, #ff5e62, #ff2d78, #b967ff);
+  background: linear-gradient(90deg, #ffb347, #ff5e62, var(--hot), #b967ff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -37,11 +54,12 @@ body {
 
 .tagline {
   margin: 6px 0 4px;
-  color: #cdbfd6;
+  color: var(--ink-dim);
   font-size: 14px;
 }
 
 /* --- Two-column editor layout --- */
+
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
@@ -51,13 +69,11 @@ body {
   margin: 0 auto;
 }
 
-.stage {
-  min-width: 0;
-}
+.stage { min-width: 0; }
 
 .cover-wrap {
   background: #000;
-  border: 3px solid #ff2d78;
+  border: 3px solid var(--hot);
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 0 34px rgba(255, 45, 120, 0.35);
@@ -72,7 +88,7 @@ body {
 
 .stage-hint {
   margin: 10px 0 0;
-  color: #cdbfd6;
+  color: var(--ink-dim);
   font-size: 13px;
 }
 
@@ -84,25 +100,24 @@ body {
 }
 
 /* --- Buttons --- */
+
 .size-btn,
 button {
   font: inherit;
   cursor: pointer;
   border-radius: 8px;
-  border: 1px solid #6b5b7a;
-  background: #241a33;
-  color: #f5eef5;
+  border: 1px solid var(--line-soft);
+  background: var(--field);
+  color: var(--ink);
   padding: 9px 12px;
 }
 
 .size-btn:hover,
-button:hover {
-  border-color: #ff2d78;
-}
+button:hover { border-color: var(--hot); }
 
 .size-btn.active,
 button.primary {
-  background: linear-gradient(90deg, #ff7a18, #ff2d78);
+  background: linear-gradient(90deg, #ff7a18, var(--hot));
   border-color: transparent;
   font-weight: 700;
 }
@@ -110,11 +125,12 @@ button.primary {
 button:focus-visible,
 input:focus-visible,
 select:focus-visible {
-  outline: 2px solid #ffb347;
+  outline: 2px solid var(--amber);
   outline-offset: 2px;
 }
 
 /* --- Control cards --- */
+
 .controls {
   display: flex;
   flex-direction: column;
@@ -123,8 +139,8 @@ select:focus-visible {
 }
 
 .card {
-  background: #1a1226;
-  border: 1px solid #3d2b52;
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 10px;
   padding: 14px 16px;
 }
@@ -132,48 +148,26 @@ select:focus-visible {
 .card h2 {
   margin: 0 0 10px;
   font-size: 16px;
-  color: #ffb347;
+  color: var(--amber);
 }
 
 .card label {
   display: block;
   font-size: 13px;
-  color: #d9cbe4;
+  color: var(--ink-soft);
   margin-bottom: 10px;
 }
 
-.card input[type="text"] {
-  display: block;
-  width: 100%;
-  margin-top: 5px;
-  padding: 8px 10px;
-  border-radius: 7px;
-  border: 1px solid #6b5b7a;
-  background: #120c1d;
-  color: #fff;
-  font: inherit;
-}
-
-.card select {
-  display: block;
-  width: 100%;
-  margin-top: 5px;
-  padding: 8px 10px;
-  border-radius: 7px;
-  border: 1px solid #6b5b7a;
-  background: #120c1d;
-  color: #fff;
-  font: inherit;
-}
-
+.card input[type="text"],
+.card select,
 .card input[type="file"] {
   display: block;
   width: 100%;
   margin-top: 5px;
   padding: 8px 10px;
   border-radius: 7px;
-  border: 1px solid #6b5b7a;
-  background: #120c1d;
+  border: 1px solid var(--line-soft);
+  background: var(--panel-deep);
   color: #fff;
   font: inherit;
 }
@@ -185,6 +179,7 @@ select:focus-visible {
 }
 
 /* --- Panel picker --- */
+
 .panel-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -195,7 +190,7 @@ select:focus-visible {
 .panel-btn {
   padding: 0;
   overflow: hidden;
-  border: 2px solid #3d2b52;
+  border: 2px solid var(--line);
   border-radius: 7px;
   background: #000;
 }
@@ -208,8 +203,8 @@ select:focus-visible {
 }
 
 .panel-btn.selected {
-  border-color: #ff2d78;
-  box-shadow: 0 0 0 2px #ff2d78;
+  border-color: var(--hot);
+  box-shadow: 0 0 0 2px var(--hot);
 }
 
 .btn-row {
@@ -219,42 +214,37 @@ select:focus-visible {
   margin-top: 4px;
 }
 
-.btn-row button {
-  flex: 1 1 auto;
-}
+.btn-row button { flex: 1 1 auto; }
 
 .hint {
   font-size: 13px;
-  color: #cdbfd6;
+  color: var(--ink-dim);
   margin: 0 0 10px;
 }
 
 .status {
   min-height: 18px;
   font-size: 13px;
-  color: #8dff9e;
+  color: var(--mint);
   margin: 10px 0 0;
 }
 
 .foot {
   padding: 14px 22px 22px;
-  color: #8f819e;
+  color: var(--ink-faint);
   font-size: 12px;
   text-align: center;
 }
 
-/* Cover-only view used for screenshots: hide the editor, centre the cover. */
-body.cover-mode {
-  background: #050308;
-}
+/* --- Cover-only view, used for screenshots: hide the editor. --- */
+
+body.cover-mode { background: #050308; }
 
 body.cover-mode .topbar,
 body.cover-mode .controls,
 body.cover-mode .foot,
 body.cover-mode .size-row,
-body.cover-mode .stage-hint {
-  display: none;
-}
+body.cover-mode .stage-hint { display: none; }
 
 body.cover-mode .layout {
   display: block;
@@ -270,22 +260,12 @@ body.cover-mode .cover-wrap {
   margin: 0 auto;
 }
 
-body.cover-mode .cover-wrap.landscape {
-  max-width: 1280px;
-}
-
-body.cover-mode .cover-wrap.portrait {
-  max-width: 480px;
-}
-
-body.cover-mode .cover-wrap.square {
-  max-width: 720px;
-}
+body.cover-mode .cover-wrap.landscape { max-width: 1280px; }
+body.cover-mode .cover-wrap.portrait { max-width: 480px; }
+body.cover-mode .cover-wrap.square { max-width: 720px; }
 
 @media (max-width: 900px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
+  .layout { grid-template-columns: 1fr; }
 
   .brand-sub {
     display: block;
