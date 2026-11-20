@@ -1,3 +1,8 @@
+/* NEON HEAT — Midnight Run Cover Maker: the editor's dark neon look.
+   Deep purple night, hot pink borders, and a sunset gradient on the brand.
+   The cover itself is drawn on canvas by app/src/app.js; this file only
+   styles the editor around it. */
+
 * { box-sizing: border-box; }
 
 body {
@@ -7,6 +12,7 @@ body {
   font-family: "Segoe UI", Arial, sans-serif;
 }
 
+/* --- Header --- */
 .topbar {
   padding: 18px 22px 10px;
   border-bottom: 2px solid #ff2d78;
@@ -29,8 +35,13 @@ body {
   color: #ffd9ec;
 }
 
-.tagline { margin: 6px 0 4px; color: #cdbfd6; font-size: 14px; }
+.tagline {
+  margin: 6px 0 4px;
+  color: #cdbfd6;
+  font-size: 14px;
+}
 
+/* --- Two-column editor layout --- */
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
@@ -40,7 +51,9 @@ body {
   margin: 0 auto;
 }
 
-.stage { min-width: 0; }
+.stage {
+  min-width: 0;
+}
 
 .cover-wrap {
   background: #000;
@@ -57,9 +70,22 @@ body {
   border-radius: 4px;
 }
 
-.size-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.stage-hint {
+  margin: 10px 0 0;
+  color: #cdbfd6;
+  font-size: 13px;
+}
 
-.size-btn, button {
+.size-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* --- Buttons --- */
+.size-btn,
+button {
   font: inherit;
   cursor: pointer;
   border-radius: 8px;
@@ -69,13 +95,32 @@ body {
   padding: 9px 12px;
 }
 
-.size-btn.active, button.primary {
+.size-btn:hover,
+button:hover {
+  border-color: #ff2d78;
+}
+
+.size-btn.active,
+button.primary {
   background: linear-gradient(90deg, #ff7a18, #ff2d78);
   border-color: transparent;
   font-weight: 700;
 }
 
-.controls { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #ffb347;
+  outline-offset: 2px;
+}
+
+/* --- Control cards --- */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
 
 .card {
   background: #1a1226;
@@ -84,11 +129,20 @@ body {
   padding: 14px 16px;
 }
 
-.card h2 { margin: 0 0 10px; font-size: 16px; color: #ffb347; }
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: #ffb347;
+}
 
-.card label { display: block; font-size: 13px; color: #d9cbe4; margin-bottom: 10px; }
+.card label {
+  display: block;
+  font-size: 13px;
+  color: #d9cbe4;
+  margin-bottom: 10px;
+}
 
-.card input[type="text"], .card select, .card input[type="file"] {
+.card input[type="text"] {
   display: block;
   width: 100%;
   margin-top: 5px;
@@ -100,8 +154,37 @@ body {
   font: inherit;
 }
 
-.card input[type="range"] { display: block; width: 100%; margin-top: 5px; }
+.card select {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: 1px solid #6b5b7a;
+  background: #120c1d;
+  color: #fff;
+  font: inherit;
+}
 
+.card input[type="file"] {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: 1px solid #6b5b7a;
+  background: #120c1d;
+  color: #fff;
+  font: inherit;
+}
+
+.card input[type="range"] {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+}
+
+/* --- Panel picker --- */
 .panel-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -117,28 +200,95 @@ body {
   background: #000;
 }
 
-.panel-btn img { display: block; width: 100%; height: 64px; object-fit: cover; }
+.panel-btn img {
+  display: block;
+  width: 100%;
+  height: 64px;
+  object-fit: cover;
+}
 
-.panel-btn.selected { border-color: #ff2d78; box-shadow: 0 0 0 2px #ff2d78; }
+.panel-btn.selected {
+  border-color: #ff2d78;
+  box-shadow: 0 0 0 2px #ff2d78;
+}
 
-.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-.btn-row button { flex: 1 1 auto; }
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
 
-.hint { font-size: 13px; color: #cdbfd6; margin: 0 0 10px; }
-.status { min-height: 18px; font-size: 13px; color: #8dff9e; margin: 10px 0 0; }
+.btn-row button {
+  flex: 1 1 auto;
+}
 
-.foot { padding: 14px 22px 22px; color: #8f819e; font-size: 12px; text-align: center; }
+.hint {
+  font-size: 13px;
+  color: #cdbfd6;
+  margin: 0 0 10px;
+}
+
+.status {
+  min-height: 18px;
+  font-size: 13px;
+  color: #8dff9e;
+  margin: 10px 0 0;
+}
+
+.foot {
+  padding: 14px 22px 22px;
+  color: #8f819e;
+  font-size: 12px;
+  text-align: center;
+}
 
 /* Cover-only view used for screenshots: hide the editor, centre the cover. */
-body.cover-mode { background: #050308; }
-body.cover-mode .topbar, body.cover-mode .controls, body.cover-mode .foot, body.cover-mode .size-row { display: none; }
-body.cover-mode .layout { display: block; padding: 0; max-width: none; }
-body.cover-mode .cover-wrap { border: 0; border-radius: 0; padding: 0; box-shadow: none; margin: 0 auto; }
-body.cover-mode .cover-wrap.landscape { max-width: 1280px; }
-body.cover-mode .cover-wrap.portrait { max-width: 480px; }
-body.cover-mode .cover-wrap.square { max-width: 720px; }
+body.cover-mode {
+  background: #050308;
+}
+
+body.cover-mode .topbar,
+body.cover-mode .controls,
+body.cover-mode .foot,
+body.cover-mode .size-row,
+body.cover-mode .stage-hint {
+  display: none;
+}
+
+body.cover-mode .layout {
+  display: block;
+  padding: 0;
+  max-width: none;
+}
+
+body.cover-mode .cover-wrap {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  margin: 0 auto;
+}
+
+body.cover-mode .cover-wrap.landscape {
+  max-width: 1280px;
+}
+
+body.cover-mode .cover-wrap.portrait {
+  max-width: 480px;
+}
+
+body.cover-mode .cover-wrap.square {
+  max-width: 720px;
+}
 
 @media (max-width: 900px) {
-  .layout { grid-template-columns: 1fr; }
-  .brand-sub { display: block; margin: 4px 0 0; }
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-sub {
+    display: block;
+    margin: 4px 0 0;
+  }
 }

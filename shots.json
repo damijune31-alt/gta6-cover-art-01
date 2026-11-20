@@ -1,1 +1,26 @@
-[{"h":720,"name":"1-cover.jpg","query":"?shot=editor","w":1280},{"h":720,"name":"2-editor.jpg","query":"?shot=editor&panel=5","w":1280},{"h":720,"name":"3-cover-square.jpg","query":"?shot=cover&size=square","w":1280},{"h":720,"name":"4-cover-portrait.jpg","query":"?shot=cover&size=portrait","w":1280}]
+[
+  {
+    "h": 720,
+    "name": "1-cover.jpg",
+    "query": "?shot=editor",
+    "w": 1280
+  },
+  {
+    "h": 720,
+    "name": "2-editor.jpg",
+    "query": "?shot=editor&panel=5",
+    "w": 1280
+  },
+  {
+    "h": 720,
+    "name": "3-cover-square.jpg",
+    "query": "?shot=cover&size=square",
+    "w": 1280
+  },
+  {
+    "h": 720,
+    "name": "4-cover-portrait.jpg",
+    "query": "?shot=cover&size=portrait",
+    "w": 1280
+  }
+]

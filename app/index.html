@@ -1,8 +1,13 @@
 <!DOCTYPE html>
+<!-- NEON HEAT — Midnight Run Cover Maker.
+     Offline cover-art editor: nine photos in a 3x3 poster grid, a title band
+     above the grid, a neon script subtitle, a NEW badge, and PNG export in
+     three post sizes. Photos never leave this device. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Turn any photo into GTA 6-style cover art, offline in your browser.">
 <title>NEON HEAT — Midnight Run Cover Maker</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -16,10 +21,12 @@
 </header>
 
 <main class="layout">
-  <section class="stage">
+  <!-- Live preview: the canvas below is exactly the PNG you export. -->
+  <section class="stage" aria-label="Cover preview">
     <div class="cover-wrap" id="coverWrap">
       <canvas id="cover" width="1080" height="1080"></canvas>
     </div>
+    <p class="stage-hint">Live preview — what you see is the PNG you export.</p>
     <div class="size-row" role="group" aria-label="Cover size">
       <button type="button" data-size="square" class="size-btn active">Square 1080×1080</button>
       <button type="button" data-size="portrait" class="size-btn">Portrait 1080×1350</button>
@@ -28,6 +35,7 @@
   </section>
 
   <aside class="controls">
+    <!-- Title and grade -->
     <section class="card">
       <h2>Title</h2>
       <label>Cover title
@@ -46,6 +54,7 @@
       </label>
     </section>
 
+    <!-- One panel at a time: pick it, give it a photo, crop it. -->
     <section class="card">
       <h2>Panels — pick one, then style it</h2>
       <div class="panel-grid" id="panelGrid"></div>
@@ -70,6 +79,7 @@
       </div>
     </section>
 
+    <!-- Export -->
     <section class="card">
       <h2>Export PNG</h2>
       <p class="hint">One tap, one ready-to-post PNG. No watermark, no upload.</p>
@@ -90,6 +100,7 @@
   <p>NEON HEAT — Midnight Run Cover Maker. All art is original; no Rockstar artwork, logo, or font is used. Photos are the nine samples shipped with this app, or your own uploads.</p>
 </footer>
 
+<noscript><p style="text-align:center">This cover maker needs JavaScript to draw your cover.</p></noscript>
 <script src="src/app.js"></script>
 </body>
 </html>
