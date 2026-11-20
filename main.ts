@@ -1,68 +1,53 @@
-// NEON HEAT — Midnight Run Cover Maker: submission entrypoint (round 3, fix 3).
-//
-// Hands the app in: copies app/ and screenshots/ from beside this file into
-// the output directory and writes dossier.json there with the kit library
-// (vendor/makefun-app.ts). Run it as:
-//   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-// Try the app first with `node serve.ts` (http://localhost:8080).
-//
-// The round-3 fix lives in repoRoot(): the repository is located from this
-// module's own URL, never from process.cwd(). The grader runs
-// `node /bot/main.ts` from its own folder, so cwd points at the grader's
-// directory, not the repo — the round-2 run failed with ENOENT for exactly
-// that reason. Outside the grader, MAKEFUN_OUTPUT_DIR stands in for /output.
+// NEON HEAT — Midnight Run Cover Maker: hand-in program (Node 22, stdlib only).
+// Copies this repo's app/ and screenshots/ to the output directory and writes
+// dossier.json with the vendored make.fun library. Repo root is derived from
+// this file's own location, never from the process working directory.
 
-import { cpSync, existsSync, mkdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-app.ts';
 
-// The directory this file sits in is the repository root, whatever folder
-// the caller ran node from.
-function repoRoot(): string {
-  return dirname(fileURLToPath(import.meta.url));
+const repoRoot = dirname(fileURLToPath(import.meta.url));
+const appDir = join(repoRoot, 'app');
+const shotsDir = join(repoRoot, 'screenshots');
+const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+
+const indexPath = join(appDir, 'index.html');
+if (!existsSync(indexPath) || !statSync(indexPath).isFile()) {
+  throw new Error(`main.ts: app/index.html missing under repo root ${repoRoot}`);
+}
+if (!existsSync(shotsDir) || !statSync(shotsDir).isDirectory()) {
+  throw new Error(`main.ts: screenshots/ missing under repo root ${repoRoot}`);
+}
+const shotFiles = readdirSync(shotsDir).filter((name) => /\.(png|jpe?g)$/i.test(name));
+if (shotFiles.length < 3 || shotFiles.length > 4) {
+  throw new Error(`main.ts: screenshots/ holds ${shotFiles.length} images, need 3 or 4`);
 }
 
-const ROOT = repoRoot();
-const OUT = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
-const HAND_IN = ['app', 'screenshots'] as const;
+mkdirSync(outDir, { recursive: true });
+cpSync(appDir, join(outDir, 'app'), { recursive: true });
+mkdirSync(join(outDir, 'screenshots'), { recursive: true });
+cpSync(shotsDir, join(outDir, 'screenshots'), { recursive: true });
 
-function copyHandIn(name: string): void {
-  const from = join(ROOT, name);
-  const to = join(OUT, name);
-  cpSync(from, to, { recursive: true });
-  console.log(`copied ${name}/ -> ${to}`);
+const dossier = buildDossier(outDir, {
+  text_max_bytes: 163840,
+  screenshots: { max: 4, max_bytes: 262144 },
+  app_max_files: 993,
+  app_max_bytes: 50331648,
+  app_path_max_bytes: 1000,
+});
+if (dossier.length === 0) {
+  throw new Error('main.ts: buildDossier wrote an empty dossier');
 }
-
-function buildAndWriteDossier(): number {
-  const dossier = buildDossier(OUT, {
-    text_max_bytes: 163840,
-    screenshots: { max: 4, max_bytes: 262144 },
-    app_max_files: 993,
-    app_max_bytes: 50331648,
-  });
-  const target = join(OUT, 'dossier.json');
-  writeFileSync(target, dossier);
-  return statSync(target).size;
+const dossierPath = join(outDir, 'dossier.json');
+writeFileSync(dossierPath, dossier);
+const written = readFileSync(dossierPath);
+if (written.length === 0) {
+  throw new Error('main.ts: dossier.json is empty after write');
 }
-
-// Start from a clean output directory so a stale file can never survive
-// from an earlier run: the grader runs this program twice and compares
-// the bytes, so both runs must produce the same output.
-rmSync(OUT, { recursive: true, force: true });
-mkdirSync(OUT, { recursive: true });
-for (const name of HAND_IN) copyHandIn(name);
-
-const dossierBytes = buildAndWriteDossier();
-
-// Refuse to claim success on a half-written hand-in: both the dossier and
-// the app's entry page must be on disk, and the dossier must be non-empty.
-const entryPage = join(OUT, 'app', 'index.html');
-if (dossierBytes === 0 || !existsSync(entryPage)) {
-  throw new Error(`hand-in incomplete in ${OUT}: dossier.json or app/index.html missing`);
+const parsed = JSON.parse(written.toString('utf8'));
+if (parsed.schema !== 'makefun/dossier/v1') {
+  throw new Error(`main.ts: dossier.json schema is ${String(parsed.schema)}, expected makefun/dossier/v1`);
 }
-
-console.log(`NEON HEAT handed in from ${ROOT}`);
-console.log(`  output: ${OUT}`);
-console.log(`  dossier.json: ${dossierBytes} bytes`);
-console.log('  repo root: import.meta.url (works from any cwd)');
+console.log(`dossier.json written: ${written.length} bytes`);

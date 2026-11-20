@@ -1,105 +1,69 @@
-<!DOCTYPE html>
-<!-- NEON HEAT — Midnight Run Cover Maker.
-     Offline cover-art editor. Nine photos fill a 3x3 poster grid, a title
-     band with a giant gradient title and a neon script subtitle sits above
-     the grid, and the cover exports as a PNG in three post sizes. Photos
-     are read on this device and never leave it. -->
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Turn any photo into GTA 6-style cover art, offline in your browser.">
 <title>NEON HEAT — Midnight Run Cover Maker</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="topbar">
-  <div class="brand">
-    <span class="brand-mark">NEON HEAT</span>
-    <span class="brand-sub">Midnight Run Cover Maker</span>
-  </div>
-  <p class="tagline">Turn any photo into GTA 6-style cover art. Offline — your photos never leave this device.</p>
-</header>
+<main id="app">
+  <header class="masthead">
+    <h1>NEON HEAT</h1>
+    <p class="tagline">Midnight Run Cover Maker — Vice City Sunset Edition</p>
+  </header>
 
-<main class="layout">
-  <!-- Live preview: this canvas is exactly the PNG you export. -->
-  <section class="stage" aria-label="Cover preview">
-    <div class="cover-wrap" id="coverWrap">
-      <canvas id="cover" width="1080" height="1080"></canvas>
-    </div>
-    <p class="stage-hint">Live preview — what you see is the PNG you export.</p>
-    <div class="size-row" role="group" aria-label="Cover size">
-      <button type="button" data-size="square" class="size-btn active">Square 1080×1080</button>
-      <button type="button" data-size="portrait" class="size-btn">Portrait 1080×1350</button>
-      <button type="button" data-size="landscape" class="size-btn">Wide 1920×1080</button>
-    </div>
+  <section class="stage">
+    <canvas id="cover" width="1080" height="1080" aria-label="Cover preview"></canvas>
+    <p class="hint">Pick a panel, drop in your photo, edit the caption, export a PNG.</p>
   </section>
 
-  <aside class="controls">
-    <section class="card">
-      <h2>Title</h2>
-      <label>Cover title
-        <input id="titleInput" type="text" value="MIDNIGHT RUN" maxlength="24" autocomplete="off">
-      </label>
-      <label>Neon script subtitle
-        <input id="subtitleInput" type="text" value="Neon Heat" maxlength="24" autocomplete="off">
-      </label>
-      <label>Sunset grade
-        <select id="gradeSelect">
-          <option value="sunset" selected>Sunset — orange / pink</option>
-          <option value="neon">Neon — magenta / cyan</option>
-          <option value="vice">Vice — purple / teal</option>
-          <option value="golden">Golden — amber / red</option>
-        </select>
-      </label>
-    </section>
+  <section class="editor" id="editor">
+    <div class="group">
+      <label>Panel</label>
+      <div class="panels" id="panelPicker"></div>
+    </div>
 
-    <!-- One panel at a time: select it, give it a photo, crop it. -->
-    <section class="card">
-      <h2>Panels — pick one, then style it</h2>
-      <div class="panel-grid" id="panelGrid"></div>
-      <label>Photo for panel <span id="panelLabel">1</span>
-        <select id="photoSelect"></select>
-      </label>
-      <label>…or upload your own photo
-        <input id="uploadInput" type="file" accept="image/*">
-      </label>
-      <label>Zoom <span id="zoomVal">100%</span>
-        <input id="zoomRange" type="range" min="100" max="250" value="100">
-      </label>
-      <label>Position left / right
-        <input id="oxRange" type="range" min="-100" max="100" value="0">
-      </label>
-      <label>Position up / down
-        <input id="oyRange" type="range" min="-100" max="100" value="0">
-      </label>
-      <div class="btn-row">
-        <button type="button" id="resetPanel">Reset panel</button>
-        <button type="button" id="shuffleBtn">Shuffle photos</button>
+    <div class="group">
+      <label for="photoFile">Photo for panel <span id="panelLabel">1</span></label>
+      <input type="file" id="photoFile" accept="image/*">
+      <div class="sliders">
+        <label>Zoom <input type="range" id="zoom" min="1" max="3" step="0.05" value="1"></label>
+        <label>Move X <input type="range" id="offsetX" min="-0.5" max="0.5" step="0.01" value="0"></label>
+        <label>Move Y <input type="range" id="offsetY" min="-0.5" max="0.5" step="0.01" value="0"></label>
       </div>
-    </section>
+    </div>
 
-    <section class="card">
-      <h2>Export PNG</h2>
-      <p class="hint">One tap, one ready-to-post PNG. No watermark, no upload.</p>
-      <div class="btn-row">
-        <button type="button" id="exportSquare" class="primary">Square 1080×1080</button>
-        <button type="button" id="exportPortrait" class="primary">Portrait 1080×1350</button>
-      </div>
-      <div class="btn-row">
-        <button type="button" id="exportLandscape" class="primary">Wide 1920×1080</button>
-        <button type="button" id="exportAll" class="primary">Export all 3 sizes</button>
-      </div>
-      <p class="status" id="status"></p>
-    </section>
-  </aside>
+    <div class="group">
+      <label for="titleInput">Title</label>
+      <input type="text" id="titleInput" value="NEON HEAT" maxlength="24">
+      <label for="subtitleInput">Subtitle</label>
+      <input type="text" id="subtitleInput" value="Midnight Run" maxlength="32">
+    </div>
+
+    <div class="group">
+      <label for="gradePicker">Grade</label>
+      <select id="gradePicker">
+        <option value="sunset" selected>Sunset</option>
+        <option value="neon">Neon</option>
+        <option value="vice">Vice</option>
+        <option value="golden">Golden</option>
+      </select>
+      <label for="sizePicker">Size</label>
+      <select id="sizePicker">
+        <option value="square" selected>Square 1080 × 1080</option>
+        <option value="portrait">Portrait 1080 × 1350</option>
+        <option value="landscape">Landscape 1920 × 1080</option>
+      </select>
+    </div>
+
+    <div class="group actions">
+      <button type="button" id="fillAll">Fill all panels with one photo</button>
+      <button type="button" id="exportBtn" class="primary">Export PNG</button>
+      <a id="downloadLink" download="neon-heat-cover.png" hidden>Download</a>
+    </div>
+  </section>
 </main>
-
-<footer class="foot">
-  <p>NEON HEAT — Midnight Run Cover Maker. All art is original; no Rockstar artwork, logo, or font is used. Photos are the nine samples shipped with this app, or your own uploads.</p>
-</footer>
-
-<noscript><p style="text-align:center">This cover maker needs JavaScript to draw your cover.</p></noscript>
-<script src="src/app.js"></script>
+<script type="module" src="src/app.js"></script>
 </body>
 </html>

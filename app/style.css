@@ -1,274 +1,117 @@
-/* NEON HEAT — Midnight Run Cover Maker: the editor's dark neon look.
-   Deep purple night, hot pink borders, a sunset gradient on the brand.
-   The cover itself is drawn on canvas by app/src/app.js; this file only
-   styles the editor around it. */
-
 :root {
-  --night: #0d0b16;
-  --panel: #1a1226;
-  --panel-deep: #120c1d;
-  --field: #241a33;
-  --ink: #f5eef5;
-  --ink-soft: #d9cbe4;
-  --ink-dim: #cdbfd6;
-  --ink-faint: #8f819e;
-  --line: #3d2b52;
-  --line-soft: #6b5b7a;
-  --hot: #ff2d78;
-  --amber: #ffb347;
-  --mint: #8dff9e;
+  --bg: #12081f;
+  --bg-soft: #1d0f30;
+  --panel: #241238;
+  --ink: #fff7ef;
+  --muted: #c9a8d8;
+  --pink: #ff2e88;
+  --orange: #ff7a18;
+  --gold: #ffc93c;
+  --teal: #19e3c2;
+  --line: #4a2a63;
+  --radius: 14px;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--night);
+  background: var(--bg);
   color: var(--ink);
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: "Arial Black", Arial, Helvetica, sans-serif;
 }
 
-/* --- Header --- */
+#app { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-.topbar {
-  padding: 18px 22px 10px;
-  border-bottom: 2px solid var(--hot);
-  background: linear-gradient(90deg, #1a0b2e, #2b0f3a 55%, #3a0f2b);
-}
-
-.brand-mark {
-  font-family: "Arial Black", Arial, sans-serif;
-  font-size: 30px;
+.masthead h1 {
+  margin: 0;
+  font-size: 44px;
   letter-spacing: 2px;
-  background: linear-gradient(90deg, #ffb347, #ff5e62, var(--hot), #b967ff);
+  background: linear-gradient(90deg, var(--gold), var(--orange), var(--pink));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-.brand-sub {
-  margin-left: 12px;
-  font-size: 15px;
-  color: #ffd9ec;
-}
+.tagline { color: var(--muted); font-family: Georgia, serif; font-style: italic; margin: 4px 0 18px; }
 
-.tagline {
-  margin: 6px 0 4px;
-  color: var(--ink-dim);
-  font-size: 14px;
-}
-
-/* --- Two-column editor layout --- */
-
-.layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
-  gap: 22px;
-  padding: 20px 22px;
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-.stage { min-width: 0; }
-
-.cover-wrap {
-  background: #000;
-  border: 3px solid var(--hot);
-  border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0 0 34px rgba(255, 45, 120, 0.35);
-}
-
+.stage { text-align: center; }
 #cover {
-  display: block;
-  width: 100%;
+  width: min(100%, 720px);
   height: auto;
-  border-radius: 4px;
+  border-radius: var(--radius);
+  border: 2px solid var(--line);
+  background: #000;
+  box-shadow: 0 12px 48px rgba(255, 46, 136, 0.25);
 }
+.hint { color: var(--muted); font-family: Arial, sans-serif; font-size: 14px; }
 
-.stage-hint {
-  margin: 10px 0 0;
-  color: var(--ink-dim);
-  font-size: 13px;
-}
-
-.size-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-
-/* --- Buttons --- */
-
-.size-btn,
-button {
-  font: inherit;
-  cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid var(--line-soft);
-  background: var(--field);
-  color: var(--ink);
-  padding: 9px 12px;
-}
-
-.size-btn:hover,
-button:hover { border-color: var(--hot); }
-
-.size-btn.active,
-button.primary {
-  background: linear-gradient(90deg, #ff7a18, var(--hot));
-  border-color: transparent;
-  font-weight: 700;
-}
-
-button:focus-visible,
-input:focus-visible,
-select:focus-visible {
-  outline: 2px solid var(--amber);
-  outline-offset: 2px;
-}
-
-/* --- Control cards --- */
-
-.controls {
-  display: flex;
-  flex-direction: column;
+.editor {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
-  min-width: 0;
+  margin-top: 18px;
 }
-
-.card {
+.group {
   background: var(--panel);
   border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  font-family: Arial, sans-serif;
+}
+.group label { display: block; font-size: 13px; color: var(--muted); margin: 8px 0 4px; }
+.group label:first-child { margin-top: 0; }
+.group input[type="text"], .group select {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  color: var(--ink);
+  font-size: 15px;
+}
+.panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.panels button {
+  padding: 10px 0;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 15px;
+}
+.panels button.active { background: var(--pink); border-color: var(--pink); }
+.sliders label { font-size: 12px; }
+.sliders input { width: 100%; }
+.actions { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+.actions button {
+  padding: 12px;
   border-radius: 10px;
-  padding: 14px 16px;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 15px;
+}
+.actions button.primary {
+  background: linear-gradient(90deg, var(--orange), var(--pink));
+  border: none;
+  font-weight: bold;
 }
 
-.card h2 {
-  margin: 0 0 10px;
-  font-size: 16px;
-  color: var(--amber);
-}
-
-.card label {
-  display: block;
-  font-size: 13px;
-  color: var(--ink-soft);
-  margin-bottom: 10px;
-}
-
-.card input[type="text"],
-.card select,
-.card input[type="file"] {
-  display: block;
-  width: 100%;
-  margin-top: 5px;
-  padding: 8px 10px;
-  border-radius: 7px;
-  border: 1px solid var(--line-soft);
-  background: var(--panel-deep);
-  color: #fff;
-  font: inherit;
-}
-
-.card input[type="range"] {
-  display: block;
-  width: 100%;
-  margin-top: 5px;
-}
-
-/* --- Panel picker --- */
-
-.panel-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.panel-btn {
-  padding: 0;
-  overflow: hidden;
-  border: 2px solid var(--line);
-  border-radius: 7px;
-  background: #000;
-}
-
-.panel-btn img {
-  display: block;
-  width: 100%;
-  height: 64px;
-  object-fit: cover;
-}
-
-.panel-btn.selected {
-  border-color: var(--hot);
-  box-shadow: 0 0 0 2px var(--hot);
-}
-
-.btn-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
-
-.btn-row button { flex: 1 1 auto; }
-
-.hint {
-  font-size: 13px;
-  color: var(--ink-dim);
-  margin: 0 0 10px;
-}
-
-.status {
-  min-height: 18px;
-  font-size: 13px;
-  color: var(--mint);
-  margin: 10px 0 0;
-}
-
-.foot {
-  padding: 14px 22px 22px;
-  color: var(--ink-faint);
-  font-size: 12px;
-  text-align: center;
-}
-
-/* --- Cover-only view, used for screenshots: hide the editor. --- */
-
-body.cover-mode { background: #050308; }
-
-body.cover-mode .topbar,
-body.cover-mode .controls,
-body.cover-mode .foot,
-body.cover-mode .size-row,
-body.cover-mode .stage-hint { display: none; }
-
-body.cover-mode .layout {
-  display: block;
-  padding: 0;
-  max-width: none;
-}
-
-body.cover-mode .cover-wrap {
-  border: 0;
+/* Cover-only shot: hide the editor, show the cover full frame. */
+body.cover-mode { background: #000; }
+body.cover-mode #app { max-width: none; padding: 0; }
+body.cover-mode .masthead, body.cover-mode .editor, body.cover-mode .hint { display: none; }
+body.cover-mode .stage { text-align: center; }
+body.cover-mode #cover {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  border: none;
   border-radius: 0;
-  padding: 0;
   box-shadow: none;
-  margin: 0 auto;
 }
-
-body.cover-mode .cover-wrap.landscape { max-width: 1280px; }
-body.cover-mode .cover-wrap.portrait { max-width: 480px; }
-body.cover-mode .cover-wrap.square { max-width: 720px; }
-
-@media (max-width: 900px) {
-  .layout { grid-template-columns: 1fr; }
-
-  .brand-sub {
-    display: block;
-    margin: 4px 0 0;
-  }
-}
+body.cover-mode.square #cover { max-width: 720px; }
+body.cover-mode.portrait #cover { max-width: 480px; }
+body.cover-mode.landscape #cover { max-width: 1280px; }
