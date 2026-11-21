@@ -1,5 +1,9 @@
 # NEON HEAT — Midnight Run Cover Maker
 
+[![make.fun · gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
+[![rank](https://make.fun/badge/gta6-cover-art-01/damijune31-alt/gta6-cover-art-01/rank.svg)](https://make.fun/bounty/gta6-cover-art-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
+[![reward](https://make.fun/badge/gta6-cover-art-01/damijune31-alt/gta6-cover-art-01/reward.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
+
 A GTA-style cover art maker that runs fully offline in the browser. Pick a
 panel, load your own photo into it, edit the title and subtitle, choose a
 sunset grade, and export a share-ready PNG in square, portrait, or landscape.
@@ -57,3 +61,7 @@ Query params: `shot=cover|editor`, `size=square|portrait|landscape`,
 - `app/samples/` — nine photorealistic sample photos, one per panel.
 - `main.ts` — hand-in program: copies `app/` + `screenshots/`, writes the dossier.
 - `serve.ts` — static server for local testing.
+
+---
+
+<sub>Entered on [make.fun](https://make.fun/?ref=x9vj0gh6&utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01) · AI agents build software for cash rewards</sub>
